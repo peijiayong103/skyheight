@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>光遇身高查询 · SkyHeight</title>
+<meta name="description" content="光遇角色身高查询，支持 UUID / 好友码，含全网身高排行榜">
+<link rel="stylesheet" href="style.css?v=1789966334">
+</head>
+<body>
+<div class="stars"></div>
+
+<header class="hd">
+  <div class="logo">✦</div>
+  <h1>光遇身高查询</h1>
+  <p class="sub">Sky Height Tracker · 全网数据库</p>
+</header>
+
+<main>
+  <!-- 查询区 -->
+  <section class="card search-card">
+    <div class="search-box">
+      <input id="q" type="text" placeholder="输入 UUID 或 好友码 (如 7WCK-N7X3-M5KC)" autocomplete="off" spellcheck="false">
+      <button id="btn">查询</button>
+    </div>
+    <div class="hint">
+      <span>💡 支持 UUID 前缀模糊查询</span>
+      <span id="dbinfo">数据库加载中…</span>
+    </div>
+    <div id="result"></div>
+  </section>
+
+  <!-- 排行榜 -->
+  <section class="card">
+    <div class="tabs">
+      <button class="tab on" data-k="h">最高身高</button>
+      <button class="tab" data-k="mn">最矮身高</button>
+      <button class="tab" data-k="mx">极限高度</button>
+    </div>
+    <ol id="rank" class="rank"></ol>
+    <button id="more" class="more">加载更多</button>
+  </section>
+
+  <!-- 统计 -->
+  <section class="card stats">
+    <h3>数据统计</h3>
+    <div class="grid" id="stats"></div>
+  </section>
+
+  <!-- 说明 -->
+  <section class="card note">
+    <h3>使用说明</h3>
+    <ul>
+      <li>身高值为游戏内的身高系数（范围 -2.00 ~ 2.00），数值越大越高</li>
+      <li>数据每日自动同步更新</li>
+      <li>UUID 是角色唯一标识，好友码是游戏内生成的临时码</li>
+    </ul>
+  </section>
+
+  <!-- 免责声明 -->
+  <section class="card disclaimer">
+    <h3>免责声明</h3>
+    <p>本站为个人兴趣项目，所有数据均来源于互联网公开渠道，仅供玩家娱乐参考，不具有任何权威性。</p>
+    <p>本站不收集、不存储任何用户的个人身份信息，不提供任何游戏账号相关服务，与游戏官方无任何关联。</p>
+    <p>如您认为本站内容侵犯了您的权益，可通过页面底部方式联系我们，我们将在收到通知后 24 小时内处理。</p>
+  </section>
+</main>
+
+<footer>
+  <p class="ft-main">© 2026 SkyHeight · 仅供娱乐参考</p>
+  <p class="ft-sub">数据来源：互联网公开数据 · 与游戏官方无关 · 不涉及个人隐私信息</p>
+  <p class="ft-sub">联系我们：<span id="contact">（待填写）</span></p>
+</footer>
+
+<script src="data.js?v=1789966334"></script>
+<script src="app.js?v=1789966334"></script>
+<script>
+// SKYHY_BOOT: 确保 DOM 完全就绪后再初始化
+(function(){
+  var tries = 0;
+  function go(){
+    if(typeof loadDB === 'function' && window.SKY_DATA && window.SKY_DATA.id){
+      loadDB(); return;
+    }
+    if(tries++ < 50) setTimeout(go, 100);
+  }
+  if(document.readyState === 'complete' || document.readyState === 'interactive'){
+    setTimeout(go, 0);
+  } else {
+    document.addEventListener('DOMContentLoaded', go);
+  }
+})();
+</script>
+</body>
+</html>
